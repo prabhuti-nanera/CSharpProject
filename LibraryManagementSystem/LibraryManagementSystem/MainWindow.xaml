@@ -107,6 +107,7 @@
             <Setter Property="Foreground" Value="#B0B0B0"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
             <Setter Property="FontSize" Value="13"/>
+            
         </Style>
 
         <!-- Style for ListBoxes -->
