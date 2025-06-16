@@ -1,54 +1,82 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows;
-using PersonalFinanceManager.Models;
+﻿using PersonalFinanceManager.Models;
 using PersonalFinanceManager.Services;
 using PersonalFinanceManager.Utilities;
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace PersonalFinanceManager.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        private readonly DatabaseService _dbService = new DatabaseService();
-        private readonly ReportService<Transaction> _reportService = new ReportService<Transaction>();
-        private readonly FileService _fileService = new FileService();
-        private readonly NotificationService _notificationService = new NotificationService();
-        private List<Transaction> _transactions;
-        private Transaction _selectedTransaction;
+        private readonly DatabaseService _dbService;
+        private readonly NotificationService _notificationService;
+        private bool _isLoading;
 
-        public List<Transaction> Transactions
+        public ObservableCollection<Transaction> Transactions { get; set; }
+        public ObservableCollection<Category> Categories { get; set; }
+        public Transaction SelectedTransaction { get; set; }
+
+        public bool IsLoading
         {
-            get => _transactions;
+            get => _isLoading;
             set
             {
-                _transactions = value;
-                OnPropertyChanged(nameof(Transactions));
-            }
-        }
-
-        public Transaction SelectedTransaction
-        {
-            get => _selectedTransaction;
-            set
-            {
-                _selectedTransaction = value;
-                OnPropertyChanged(nameof(SelectedTransaction));
+                _isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
             }
         }
 
         public MainViewModel()
         {
-            LoadTransactions();
-            _notificationService.OnTransactionAdded += (t, msg) => MessageBox.Show(msg);
+            _dbService = new DatabaseService();
+            _notificationService = new NotificationService();
+            Transactions = new ObservableCollection<Transaction>();
+            Categories = new ObservableCollection<Category>();
+            IsLoading = true;
+            Task.Run(async () =>
+            {
+                try
+                {
+                    await LoadCategoriesAsync();
+                    await LoadTransactionsAsync();
+                }
+                finally
+                {
+                    IsLoading = false;
+                }
+            });
         }
 
-        public async void LoadTransactions()
+        public async Task LoadCategoriesAsync()
         {
             try
             {
-                Transactions = await _dbService.GetTransactionsAsync();
+                var categories = await _dbService.GetCategoriesAsync();
+                Categories.Clear();
+                foreach (var category in categories)
+                {
+                    Categories.Add(category);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading categories: {ex.Message}");
+            }
+        }
+
+        public async Task LoadTransactionsAsync()
+        {
+            try
+            {
+                var transactions = await _dbService.GetTransactionsAsync();
+                Transactions.Clear();
+                foreach (var transaction in transactions)
+                {
+                    Transactions.Add(transaction);
+                }
             }
             catch (Exception ex)
             {
@@ -62,7 +90,7 @@ namespace PersonalFinanceManager.ViewModels
             {
                 await _dbService.AddTransactionAsync(transaction);
                 _notificationService.NotifyTransactionAdded(transaction);
-                LoadTransactions();
+                await LoadTransactionsAsync();
             }
             catch (Exception ex)
             {
@@ -75,7 +103,7 @@ namespace PersonalFinanceManager.ViewModels
             try
             {
                 await _dbService.UpdateTransactionAsync(transaction);
-                LoadTransactions();
+                await LoadTransactionsAsync();
             }
             catch (Exception ex)
             {
@@ -88,7 +116,7 @@ namespace PersonalFinanceManager.ViewModels
             try
             {
                 await _dbService.DeleteTransactionAsync(transactionId);
-                LoadTransactions();
+                await LoadTransactionsAsync();
             }
             catch (Exception ex)
             {
@@ -96,12 +124,12 @@ namespace PersonalFinanceManager.ViewModels
             }
         }
 
-        public async void GenerateReport(int year, int month)
+        public void GenerateReport(int year, int month)
         {
             try
             {
-                var summary = await _reportService.GenerateMonthlyReportAsync(Transactions, year, month);
-                MessageBox.Show($"Income: {summary.TotalIncome:C}, Expense: {summary.TotalExpense:C}, Balance: {summary.Balance:C}");
+                var report = _dbService.GenerateReport(year, month);
+                MessageBox.Show($"Report for {month}/{year}:\nIncome: {report.TotalIncome:C}\nExpenses: {report.TotalExpenses:C}\nBalance: {report.Balance:C}");
             }
             catch (Exception ex)
             {
@@ -113,8 +141,8 @@ namespace PersonalFinanceManager.ViewModels
         {
             try
             {
-                _fileService.ExportToXml(Transactions, filePath);
-                MessageBox.Show("Transactions exported successfully!");
+                _dbService.ExportToXml(filePath);
+                MessageBox.Show($"Transactions exported to {filePath}");
             }
             catch (Exception ex)
             {

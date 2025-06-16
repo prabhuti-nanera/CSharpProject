@@ -58,6 +58,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BooleanInverterConverter.cs" />
+    <Compile Include="Converters\CountToBooleanConverter.cs" />
+    <Compile Include="Models\Report.cs" />
     <Compile Include="Services\DatabaseService.cs" />
     <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\ReportService.cs" />

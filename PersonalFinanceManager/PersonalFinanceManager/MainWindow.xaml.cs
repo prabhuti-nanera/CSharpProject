@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using PersonalFinanceManager.Models;
@@ -14,34 +16,81 @@ namespace PersonalFinanceManager
         {
             InitializeComponent();
             DataContext = _viewModel;
-            CategoryComboBox.ItemsSource = new[] { new Category { Id = 1, Name = "Food" }, new Category { Id = 2, Name = "Rent" } };
-            CategoryComboBox.DisplayMemberPath = "Name";
-            CategoryComboBox.SelectedValuePath = "Id";
-            TypeComboBox.SelectedIndex = 0; 
+            Loaded += MainWindow_Loaded;
         }
 
-        private void AddTransaction_Click(object sender, RoutedEventArgs e)
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (CategoryComboBox == null || TypeComboBox == null || TransactionsGrid == null)
+            {
+                MessageBox.Show("One or more controls are not initialized. Check XAML and project build.");
+                return;
+            }
+
+            // Wait for categories and transactions to load
+            while (_viewModel.IsLoading)
+            {
+                await Task.Delay(100); // Wait for async loading to complete
+            }
+
+            // Set default selection for TypeComboBox
+            TypeComboBox.SelectedIndex = 0; // Default to "Income"
+
+            // Set default selection for CategoryComboBox if categories are available
+            if (_viewModel.Categories.Any())
+            {
+                CategoryComboBox.SelectedIndex = 0; // Select the first category
+            }
+            else
+            {
+                MessageBox.Show("No categories are available. Please add categories to the database to proceed.");
+                TransactionsGrid.IsEnabled = false; // Disable the grid if no categories
+            }
+        }
+
+        private async void AddTransaction_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                
+                if (DescriptionTextBox == null || AmountTextBox == null || CategoryComboBox == null || TypeComboBox == null || DatePicker == null)
+                {
+                    MessageBox.Show("One or more controls are not initialized. Check XAML and project build.");
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(DescriptionTextBox.Text))
+                {
+                    MessageBox.Show("Please enter a description.");
+                    return;
+                }
+
                 if (!decimal.TryParse(AmountTextBox.Text, out decimal amount))
                 {
                     MessageBox.Show("Please enter a valid amount.");
                     return;
                 }
 
-                
-                if (CategoryComboBox.SelectedValue == null)
+                if (CategoryComboBox.SelectedIndex == -1 || CategoryComboBox.SelectedValue == null)
                 {
                     MessageBox.Show("Please select a category.");
                     return;
                 }
 
-               
                 if (TypeComboBox.SelectedItem == null)
                 {
                     MessageBox.Show("Please select a transaction type (Income/Expense).");
+                    return;
+                }
+
+                // Refresh categories to ensure they match the database
+                await _viewModel.LoadCategoriesAsync();
+
+                int selectedCategoryId = (int)CategoryComboBox.SelectedValue;
+                // Validate that the CategoryId exists in the database
+                if (!_viewModel.Categories.Any(c => c.Id == selectedCategoryId))
+                {
+                    MessageBox.Show("The selected category is invalid or no longer exists in the database. Please select a different category.");
+                    CategoryComboBox.SelectedIndex = _viewModel.Categories.Any() ? 0 : -1;
                     return;
                 }
 
@@ -50,7 +99,7 @@ namespace PersonalFinanceManager
                     Description = DescriptionTextBox.Text,
                     Amount = amount,
                     Date = DatePicker.SelectedDate.GetValueOrDefault(DateTime.Now),
-                    CategoryId = (int)CategoryComboBox.SelectedValue,
+                    CategoryId = selectedCategoryId,
                     Type = ((ComboBoxItem)TypeComboBox.SelectedItem).Content.ToString() == "Income"
                            ? TransactionType.Income
                            : TransactionType.Expense
@@ -60,7 +109,16 @@ namespace PersonalFinanceManager
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding transaction: {ex.Message}");
+                if (ex.Message.Contains("FOREIGN KEY constraint"))
+                {
+                    MessageBox.Show("Error adding transaction: The selected category does not exist in the database. Please select a different category or add the category to the database.");
+                    await _viewModel.LoadCategoriesAsync();
+                    CategoryComboBox.SelectedIndex = _viewModel.Categories.Any() ? 0 : -1;
+                }
+                else
+                {
+                    MessageBox.Show($"Error adding transaction: {ex.Message}\nPlease ensure the database is accessible and the category exists.");
+                }
             }
         }
 
@@ -74,14 +132,25 @@ namespace PersonalFinanceManager
                     return;
                 }
 
-               
+                if (DescriptionTextBox == null || AmountTextBox == null || CategoryComboBox == null || TypeComboBox == null || DatePicker == null)
+                {
+                    MessageBox.Show("One or more controls are not initialized. Check XAML and project build.");
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(DescriptionTextBox.Text))
+                {
+                    MessageBox.Show("Please enter a description.");
+                    return;
+                }
+
                 if (!decimal.TryParse(AmountTextBox.Text, out decimal amount))
                 {
                     MessageBox.Show("Please enter a valid amount.");
                     return;
                 }
 
-                if (CategoryComboBox.SelectedValue == null)
+                if (CategoryComboBox.SelectedIndex == -1 || CategoryComboBox.SelectedValue == null)
                 {
                     MessageBox.Show("Please select a category.");
                     return;
@@ -93,13 +162,20 @@ namespace PersonalFinanceManager
                     return;
                 }
 
+                int selectedCategoryId = (int)CategoryComboBox.SelectedValue;
+                if (!_viewModel.Categories.Any(c => c.Id == selectedCategoryId))
+                {
+                    MessageBox.Show("The selected category is invalid or no longer exists in the database. Please refresh the categories.");
+                    return;
+                }
+
                 var updatedTransaction = new Transaction
                 {
                     Id = _viewModel.SelectedTransaction.Id,
                     Description = DescriptionTextBox.Text,
                     Amount = amount,
                     Date = DatePicker.SelectedDate.GetValueOrDefault(DateTime.Now),
-                    CategoryId = (int)CategoryComboBox.SelectedValue,
+                    CategoryId = selectedCategoryId,
                     Type = ((ComboBoxItem)TypeComboBox.SelectedItem).Content.ToString() == "Income"
                            ? TransactionType.Income
                            : TransactionType.Expense
@@ -109,7 +185,7 @@ namespace PersonalFinanceManager
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error updating transaction: {ex.Message}");
+                MessageBox.Show($"Error updating transaction: {ex.Message}\nPlease ensure the database is accessible and the category exists.");
             }
         }
 
@@ -139,14 +215,44 @@ namespace PersonalFinanceManager
 
         private void TransactionsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (TransactionsGrid == null || DescriptionTextBox == null || AmountTextBox == null || DatePicker == null || CategoryComboBox == null || TypeComboBox == null)
+            {
+                MessageBox.Show("One or more controls are not initialized. Check XAML and project build.");
+                return;
+            }
+
             if (TransactionsGrid.SelectedItem is Transaction selectedTransaction)
             {
                 _viewModel.SelectedTransaction = selectedTransaction;
                 DescriptionTextBox.Text = selectedTransaction.Description;
                 AmountTextBox.Text = selectedTransaction.Amount.ToString();
                 DatePicker.SelectedDate = selectedTransaction.Date;
-                CategoryComboBox.SelectedValue = selectedTransaction.CategoryId;
                 TypeComboBox.SelectedIndex = selectedTransaction.Type == TransactionType.Income ? 0 : 1;
+
+                // Ensure Categories are loaded and ItemsSource is not empty
+                if (!_viewModel.Categories.Any())
+                {
+                    MessageBox.Show("Categories are not loaded. Please ensure categories are available in the database.");
+                    return;
+                }
+
+                // Try to set the selected category in the dropdown
+                CategoryComboBox.SelectedValue = selectedTransaction.CategoryId;
+
+                // Check if the category was actually selected
+                if (CategoryComboBox.SelectedIndex == -1)
+                {
+                    // Category not found in the list
+                    if (selectedTransaction.Category != null && !_viewModel.Categories.Any(c => c.Id == selectedTransaction.CategoryId))
+                    {
+                        _viewModel.Categories.Add(selectedTransaction.Category);
+                        CategoryComboBox.SelectedValue = selectedTransaction.CategoryId;
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Category with ID {selectedTransaction.CategoryId} not found. It may have been deleted or not loaded.");
+                    }
+                }
             }
         }
 
@@ -162,10 +268,16 @@ namespace PersonalFinanceManager
 
         private void ClearInputFields()
         {
+            if (DescriptionTextBox == null || AmountTextBox == null || DatePicker == null || CategoryComboBox == null || TypeComboBox == null)
+            {
+                MessageBox.Show("One or more controls are not initialized. Check XAML and project build.");
+                return;
+            }
+
             DescriptionTextBox.Text = string.Empty;
             AmountTextBox.Text = string.Empty;
             DatePicker.SelectedDate = null;
-            CategoryComboBox.SelectedIndex = -1;
+            CategoryComboBox.SelectedIndex = _viewModel.Categories.Any() ? 0 : -1;
             TypeComboBox.SelectedIndex = 0;
             _viewModel.SelectedTransaction = null;
         }
