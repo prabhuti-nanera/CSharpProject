@@ -1,0 +1,10 @@
+@{
+    ViewData["Title"] = "Purchase Ticket";
+}
+<h1>Purchase Ticket</h1>
+<form asp-action="Purchase" method="post">
+    <input type="hidden" name="eventId" value="@ViewBag.EventId" />
+    <div class="form-group">
+        <input type="submit" value="Confirm Purchase" class="btn btn-primary" />
+    </div>
+</form>

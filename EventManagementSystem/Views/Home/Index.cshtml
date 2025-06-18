@@ -1,0 +1,30 @@
+﻿@model IEnumerable<EventManagementSystem.Models.Event>
+    @{
+    ViewData["Title"] = "Upcoming Events";
+    }
+    <h1>Upcoming Events</h1>
+    <p><a asp-controller="Events" asp-action="Create">Create New Event</a></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                <td>
+                    <a asp-controller="Events" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-controller="Tickets" asp-action="Purchase" asp-route-eventId="@item.Id">Buy Ticket</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
