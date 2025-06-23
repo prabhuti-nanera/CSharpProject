@@ -1,0 +1,7 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             x:Class="UltimateControlsDemo.AlertPage"
+             Title="Alert Demo">
+    <StackLayout Padding="20" Spacing="20" HorizontalOptions="Center" VerticalOptions="Center">
+        <Button Text="Show Alert" Clicked="OnShowAlert"/>
+    </StackLayout>
+</ContentPage>
