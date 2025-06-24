@@ -60,6 +60,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 	</ItemGroup>
@@ -67,6 +68,15 @@
 	<ItemGroup>
 	  <Compile Update="AlertPage.xaml.cs">
 	    <DependentUpon>AlertPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Controls\CustomProgressBar.xaml.cs">
+	    <DependentUpon>CustomProgressBar.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="ToDoPage.xaml.cs">
+	    <DependentUpon>ToDoPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="MainPage.xaml.cs">
+	    <DependentUpon>MainPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="ControlsPage.xaml.cs">
 	    <DependentUpon>ControlsPage.xaml</DependentUpon>
@@ -84,6 +94,15 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="AlertPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\CustomProgressBar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ToDoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MainPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ControlsPage.xaml">

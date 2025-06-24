@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="UltimateControlsDemo.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:UltimateControlsDemo"
-    Title="UltimateControlsDemo">
-
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:UltimateControlsDemo"
+       x:Class="UltimateControlsDemo.AppShell"
+       Shell.FlyoutBehavior="Flyout">
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
-
+    <ShellContent
+        Title="Alert"
+        ContentTemplate="{DataTemplate local:AlertPage}"
+        Route="AlertPage" />
+    <ShellContent
+        Title="Layouts"
+        ContentTemplate="{DataTemplate local:LayoutsPage}"
+        Route="LayoutsPage" />
+    <ShellContent
+        Title="Controls"
+        ContentTemplate="{DataTemplate local:ControlsPage}"
+        Route="ControlsPage" />
+    <ShellContent
+        Title="To-Do"
+        ContentTemplate="{DataTemplate local:ToDoPage}"
+        Route="ToDoPage" />
+    <FlyoutItem Title="Menu" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Route="Home" Title="Home" Icon="house.png" />
+        <ShellContent Route="Alert" Title="Alert" Icon="bell.png" />
+        <ShellContent Route="Layouts" Title="Layouts" Icon="layout.png" />
+        <ShellContent Route="Controls" Title="Controls" Icon="gear.png" />
+        <ShellContent Route="ToDo" Title="To-Do" Icon="list.png" />
+    </FlyoutItem>
 </Shell>

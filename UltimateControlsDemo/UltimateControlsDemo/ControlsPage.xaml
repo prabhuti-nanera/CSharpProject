@@ -1,47 +1,11 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:UltimateControlsDemo.Controls"
              x:Class="UltimateControlsDemo.ControlsPage"
              Title="Controls Demo">
-    <ScrollView>
-        <StackLayout Padding="20" Spacing="20">
-            <!-- Labels & Images -->
-            <Label Text="Controls with Attributes" FontSize="20"/>
-            <Label Text="Sample Label" TextColor="DarkSlateGray" FontSize="18" HorizontalOptions="Center"/>
-
-            <Image Source="icon.png" WidthRequest="150" HeightRequest="150" HorizontalOptions="Center"/>
-
-            <!-- Entry -->
-            <Entry x:Name="NameEntry" Placeholder="Enter your name" TextColor="Black"
-                   BackgroundColor="LightYellow" />
-
-            <!-- SearchBar -->
-            <SearchBar Placeholder="Search here" />
-
-            <!-- RadioButton -->
-            <RadioButton Content="Option 1" GroupName="Choices"/>
-            <RadioButton Content="Option 2" GroupName="Choices"/>
-
-            <!-- CheckBox -->
-            <CheckBox x:Name="AgreeCheckBox" Color="Green"/>
-            <Label Text="I agree to the terms." />
-
-            <!-- Switch -->
-            <Switch x:Name="ToggleSwitch"/>
-            <Label x:Name="SwitchLabel" Text="Switch is Off"/>
-
-            <!-- Event handler for Switch -->
-            <Button Text="Show Name" Clicked="OnShowNameClicked"/>
-
-            <!-- SwipeView -->
-            <SwipeView>
-                <SwipeView.RightItems>
-                    <SwipeItems>
-                        <SwipeItem Text="Delete" BackgroundColor="Red" Invoked="OnDeleteSwipe"/>
-                    </SwipeItems>
-                </SwipeView.RightItems>
-                <Grid BackgroundColor="White" Padding="20">
-                    <Label Text="Swipe me to delete" />
-                </Grid>
-            </SwipeView>
-        </StackLayout>
-    </ScrollView>
+    <VerticalStackLayout Padding="20">
+        <Label Text="Controls Page" FontSize="Large" />
+        <controls:CustomProgressBar x:Name="CustomProgress" Progress="0.7" HeightRequest="20" />
+        <Slider Minimum="0" Maximum="1" Value="0.7" ValueChanged="OnSliderValueChanged" />
+    </VerticalStackLayout>
 </ContentPage>
