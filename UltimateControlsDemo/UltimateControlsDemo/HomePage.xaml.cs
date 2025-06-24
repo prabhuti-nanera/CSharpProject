@@ -5,6 +5,7 @@
         public HomePage()
         {
             InitializeComponent();
+            this.FadeTo(1, 500);
         }
     }
 }

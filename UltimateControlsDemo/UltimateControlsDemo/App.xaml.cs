@@ -1,13 +1,25 @@
-﻿// App.xaml.cs
-public partial class App : Application
-{
-    public App()
-    {
-        InitializeComponent();
-    }
+﻿using UltimateControlsDemo;
 
-    protected override Window CreateWindow(IActivationState activationState)
+namespace UltimateControlsDemo
+{
+    public partial class App : Application
     {
-        return new Window(new MainPage()); // ✅ Correct way
+        public App()
+        {
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"App initialization failed: {ex.Message}");
+                throw;
+            }
+        }
+
+        protected override Window CreateWindow(IActivationState? activationState)
+        {
+            return new Window(new AppShell());
+        }
     }
 }

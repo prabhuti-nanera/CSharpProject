@@ -1,28 +1,16 @@
-﻿using Microsoft.Maui.Controls;
-
-namespace UltimateControlsDemo
+﻿namespace UltimateControlsDemo
 {
     public partial class ControlsPage : ContentPage
     {
         public ControlsPage()
         {
             InitializeComponent();
-
-            // Bind switch event
-            ToggleSwitch.Toggled += (s, e) =>
-            {
-                SwitchLabel.Text = $"Switch is {(e.Value ? "On" : "Off")}";
-            };
+            this.FadeTo(1, 500);
         }
 
-        private void OnShowNameClicked(object sender, System.EventArgs e)
+        private void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
         {
-            DisplayAlert("Name", $"Your name is {NameEntry.Text}", "OK");
-        }
-
-        private void OnDeleteSwipe(SwipeItem swipeItem)
-        {
-            DisplayAlert("Deleted", "Item has been deleted", "OK");
+            CustomProgress.Progress = e.NewValue;
         }
     }
 }

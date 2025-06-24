@@ -20,7 +20,7 @@ namespace UltimateControlsDemo
         private void OnLayoutsClicked(object sender, System.EventArgs e)
         {
             DetailPage.Navigation.PushAsync(new LayoutsPage());
-            IsPresented = false;    
+            IsPresented = false;
         }
 
         private void OnControlsClicked(object sender, System.EventArgs e)

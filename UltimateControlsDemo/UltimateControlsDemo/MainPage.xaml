@@ -1,0 +1,13 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:UltimateControlsDemo.Controls"
+             x:Class="UltimateControlsDemo.MainPage"
+             Title="Main">
+    <VerticalStackLayout Padding="20">
+        <Label Text="Welcome to Main Page" FontSize="Large" HorizontalOptions="Center" />
+        <Entry x:Name="NameEntry" Placeholder="Enter your name" />
+        <Button Text="Go to Alert with Name" Clicked="OnNavigateWithName" HorizontalOptions="Center" />
+        <Button Text="Toggle Theme" Clicked="OnToggleTheme" HorizontalOptions="Center" />
+        <controls:CustomProgressBar x:Name="ProgressBar" Progress="0.5" HeightRequest="20" />
+    </VerticalStackLayout>
+</ContentPage>
