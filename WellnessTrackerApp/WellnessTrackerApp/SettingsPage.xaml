@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WellnessTracker.SettingsPage"
+             Title="Settings">
+    <StackLayout Padding="20">
+        <Label Text="App Settings" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
+        <StackLayout Orientation="Horizontal">
+            <Switch x:Name="NotificationsSwitch" Toggled="OnNotificationsToggled"/>
+            <Label Text="Enable Notifications"/>
+        </StackLayout>
+        <Button Text="Reset Data" Command="{Binding ResetCommand}" BackgroundColor="Red" TextColor="White"/>
+    </StackLayout>
+</ContentPage>
