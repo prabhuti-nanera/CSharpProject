@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="WellnessTracker.WellnessTabbedPage">
+    <ContentPage Title="Exercise Log">
+        <StackLayout Padding="10">
+            <SearchBar Placeholder="Search exercises"/>
+            <Label Text="Log Exercise" FontSize="18"/>
+            <DatePicker x:Name="ExerciseDate"/>
+            <TimePicker x:Name="ExerciseTime"/>
+            <Button Text="Save Exercise" Command="{Binding SaveExerciseCommand}" BackgroundColor="{StaticResource PrimaryColor}"/>
+        </StackLayout>
+    </ContentPage>
+    <ContentPage Title="Sleep Log">
+        <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="SpaceEvenly" Padding="10">
+            <Label Text="Hours Slept" FontSize="16"/>
+            <Stepper x:Name="SleepStepper" Minimum="0" Maximum="12" Increment="0.5"/>
+            <Button Text="Save Sleep" Command="{Binding SaveSleepCommand}"/>
+        </FlexLayout>
+    </ContentPage>
+</TabbedPage>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WellnessTracker.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="PrimaryColor">#FF6200EE</Color>
+            <!-- Web Color: Deep Purple -->
+            <Color x:Key="AccentColor">#FF03DAC6</Color>
+            <!-- Web Color: Teal -->
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

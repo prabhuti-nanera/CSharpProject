@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WellnessTracker.MainPage"
+             Title="Wellness Dashboard">
+    <ScrollView>
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,*">
+            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="{StaticResource PrimaryColor}" StrokeThickness="1" Stroke="{StaticResource AccentColor}" Margin="10">
+                <Label Text="Daily Wellness Overview" FontSize="24" TextColor="White" HorizontalOptions="Center"/>
+            </Border>
+            <BoxView Grid.Row="1" Grid.Column="0" Color="{StaticResource AccentColor}" HeightRequest="100" Margin="5"/>
+            <StackLayout Grid.Row="1" Grid.Column="1" Margin="5">
+                <Label Text="Water Intake" FontAttributes="Bold"/>
+                <Button Text="Log Water" Command="{Binding NavigateToWaterCommand}"/>
+            </StackLayout>
+            <BoxView Grid.Row="2" Grid.Column="0" Color="{StaticResource AccentColor}" HeightRequest="100" Margin="5"/>
+            <StackLayout Grid.Row="2" Grid.Column="1" Margin="5">
+                <Label Text="Mood Tracker" FontAttributes="Bold"/>
+                <Button Text="Log Mood" Command="{Binding NavigateToMoodCommand}"/>
+            </StackLayout>
+            <BoxView Grid.Row="3" Grid.Column="0" Color="{StaticResource AccentColor}" HeightRequest="100" Margin="5"/>
+            <StackLayout Grid.Row="3" Grid.Column="1" Margin="5">
+                <Label Text="Exercise & Sleep" FontAttributes="Bold"/>
+                <!-- Fixed: & to & -->
+                <Button Text="View Logs" Command="{Binding NavigateToTabbedCommand}"/>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

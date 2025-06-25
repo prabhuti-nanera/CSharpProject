@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WellnessTracker.WaterTrackerPage"
+             Title="Water Tracker">
+    <AbsoluteLayout>
+        <Image Source="water_icon.svg" AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="0.5,0.1,100,100" Aspect="AspectFit"/>
+        <StackLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0.3,1,0.7" Padding="0,10,0,10">
+            <Label Text="Log Water Intake" FontSize="20" HorizontalOptions="Center"/>
+            <Entry x:Name="WaterEntry" Placeholder="Enter glasses of water" Keyboard="Numeric" WidthRequest="200" HorizontalOptions="Center"/>
+            <Stepper x:Name="WaterStepper" Minimum="0" Maximum="10" Increment="1" HorizontalOptions="Center"/>
+            <Button Text="Save" Command="{Binding SaveWaterCommand}" BackgroundColor="{StaticResource PrimaryColor}" TextColor="White" Margin="10"/>
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Label Text="Goal: 8 glasses/day" FontSize="16"/>
+            </HorizontalStackLayout>
+        </StackLayout>
+    </AbsoluteLayout>
+</ContentPage>

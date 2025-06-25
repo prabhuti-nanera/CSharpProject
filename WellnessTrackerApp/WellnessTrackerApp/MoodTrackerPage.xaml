@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WellnessTracker.MoodTrackerPage"
+             Title="Mood">
+    <StackLayout Padding="20">
+        <Border StrokeThickness="1" Stroke="{StaticResource AccentColor}" Padding="10">
+            <StackLayout x:Name="MoodGroup">
+                <Label Text="How are you feeling?" FontSize="18" FontAttributes="Bold"/>
+                <RadioButton x:Name="HappyRadio" GroupName="Mood" Value="Happy" Content="Happy"/>
+                <RadioButton x:Name="NeutralRadio" GroupName="Mood" Value="Neutral" Content="Neutral" IsChecked="true"/>
+                <RadioButton x:Name="SadRadio" GroupName="Mood" Value="Sad" Content="Sad"/>
+            </StackLayout>
+        </Border>
+        <Label Text="Mood Intensity" FontSize="16"/>
+        <Slider x:Name="MoodSlider" Minimum="0" Maximum="10" Value="5"/>
+        <StackLayout Orientation="Horizontal">
+            <CheckBox x:Name="ActivityCheck"/>
+            <Label Text="Exercised today"/>
+        </StackLayout>
+        <SwipeView>
+            <SwipeView.RightItems>
+                <SwipeItem Text="Save" BackgroundColor="Green" Command="{Binding SaveMoodCommand}"/>
+            </SwipeView.RightItems>
+            <Label Text="Swipe right to save mood" FontSize="14" TextColor="Gray"/>
+        </SwipeView>
+    </StackLayout>
+</ContentPage>
