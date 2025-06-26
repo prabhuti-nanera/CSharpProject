@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:RecipeBookApp.ViewModels"
+    x:Class="RecipeBookApp.AddRecipePage">
+
+    <ContentPage.BindingContext>
+        <viewmodels:RecipeViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+
+            <Label Text="Add New Recipe" FontSize="24" FontAttributes="Bold" />
+
+            <Entry Placeholder="Name" Text="{Binding Name}" />
+            <Entry Placeholder="Cuisine" Text="{Binding Cuisine}" />
+            <Editor Placeholder="Ingredients" Text="{Binding Ingredients}" AutoSize="TextChanges" />
+            <Entry Placeholder="Preparation Time (mins)" Keyboard="Numeric" Text="{Binding PrepTime}" />
+
+            <StackLayout Orientation="Horizontal" Spacing="10">
+                <Label Text="Mark as Favorite?" VerticalOptions="Center" />
+                <Switch IsToggled="{Binding IsFavorite}" />
+            </StackLayout>
+
+            <Button Text="Add Recipe" Command="{Binding AddRecipeCommand}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
