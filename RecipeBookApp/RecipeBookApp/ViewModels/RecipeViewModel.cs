@@ -27,6 +27,7 @@ namespace RecipeBookApp.ViewModels
         {
             get => _cuisine;
             set => SetProperty(ref _cuisine, value);
+
         }
 
         private string? _ingredients;

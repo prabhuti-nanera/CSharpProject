@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FitnessTrackerApp.CardioPage"
+             Title="Cardio">
+    <ScrollView>
+        <StackLayout Padding="10">
+            <!-- Header -->
+            <Label Text="Log Cardio Workout" FontSize="Header" FontAttributes="Bold" TextColor="DarkGreen" />
+            <!-- Input Controls -->
+            <Border Stroke="LightGray" StrokeThickness="1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <FlexLayout Direction="Column" JustifyContent="SpaceEvenly" Padding="10">
+                    <Entry x:Name="workoutNameEntry" Placeholder="Workout Name (e.g., Running)" />
+                    <Editor x:Name="notesEditor" Placeholder="Workout Notes" HeightRequest="100" />
+                    <HorizontalStackLayout>
+                        <Label Text="Intensity:" VerticalOptions="Center" />
+                        <RadioButton GroupName="Intensity" Content="Low" IsChecked="True" />
+                        <RadioButton GroupName="Intensity" Content="Medium" />
+                        <RadioButton GroupName="Intensity" Content="High" />
+                    </HorizontalStackLayout>
+                    <CheckBox x:Name="outdoorCheckBox" />
+                    <Label Text="Outdoor" VerticalOptions="Center" />
+                    <Switch x:Name="trackSwitch" />
+                    <Label Text="Track Progress" VerticalOptions="Center" />
+                    <DatePicker x:Name="workoutDatePicker" />
+                    <TimePicker x:Name="workoutTimePicker" />
+                    <Slider x:Name="durationSlider" Minimum="0" Maximum="120" ValueChanged="OnSliderValueChanged" />
+                    <Label x:Name="durationLabel" Text="Duration: 0 minutes" />
+                    <Stepper x:Name="setsStepper" Minimum="1" Maximum="10" Value="1" />
+                    <SearchBar x:Name="searchBar" Placeholder="Search Workouts" SearchButtonPressed="OnSearchPressed" />
+                    <Button x:Name="logButton" Text="Log Workout" Clicked="OnLogWorkoutClicked" BackgroundColor="ForestGreen" TextColor="White" />
+                </FlexLayout>
+            </Border>
+            <!-- Workout List -->
+            <StackLayout>
+                <Label Text="Workout Log" FontSize="Title" />
+                <BoxView HeightRequest="2" Color="Gray" />
+                <SwipeView>
+                    <SwipeView.LeftItems>
+                        <SwipeItems>
+                            <SwipeItem Text="Delete" BackgroundColor="Red" Invoked="OnSwipeDelete" />
+                        </SwipeItems>
+                    </SwipeView.LeftItems>
+                    <Label Text="Sample Workout" FontSize="Medium" />
+                </SwipeView>
+            </StackLayout>
+            <!-- Absolute Layout for Icon -->
+            <AbsoluteLayout>
+                <Image Source="fitness_icon.svg" AbsoluteLayout.LayoutBounds="0.9,0.9,50,50" AbsoluteLayout.LayoutFlags="PositionProportional" />
+            </AbsoluteLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
