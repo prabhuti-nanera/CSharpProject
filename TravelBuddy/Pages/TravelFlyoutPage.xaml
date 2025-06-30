@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<FlyoutPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="TravelBuddy.Pages.TravelFlyoutPage">
+    <FlyoutPage.Flyout>
+        <ContentPage Title="Menu">
+            <VerticalStackLayout>
+                <Label Text="Travel Menu"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+                <Button Text="Home"
+                        Clicked="OnMenuItemClicked" />
+                <Button Text="Plans"
+                        Clicked="OnMenuItemClicked" />
+                <Button Text="Settings"
+                        Clicked="OnMenuItemClicked" />
+            </VerticalStackLayout>
+        </ContentPage>
+    </FlyoutPage.Flyout>
+    <FlyoutPage.Detail>
+        <ContentPage Title="Detail">
+            <VerticalStackLayout>
+                <Label Text="Select an option from the menu"
+                       FontSize="18"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </ContentPage>
+    </FlyoutPage.Detail>
+</FlyoutPage>

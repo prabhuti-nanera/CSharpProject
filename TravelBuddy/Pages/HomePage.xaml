@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TravelBuddy.Pages.HomePage"
+             Title="TravelBuddy Home">
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="20">
+            <Label Text="Welcome to TravelBuddy!"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="{StaticResource Primary}" />
+            <Image Source="dotnet_bot.png"
+                   HeightRequest="100"
+                   HorizontalOptions="Center" />
+            <Button Text="Go to Flyout Menu"
+                    Clicked="OnGoToFlyoutClicked"
+                    BackgroundColor="{StaticResource Secondary}"
+                    TextColor="White" />
+            <Button Text="Go to Tabs"
+                    Clicked="OnGoToTabsClicked"
+                    BackgroundColor="{StaticResource Secondary}"
+                    TextColor="White" />
+            <Button Text="Go to Calculator"
+                    Clicked="OnGoToCalculatorClicked"
+                    BackgroundColor="{StaticResource Secondary}"
+                    TextColor="White" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
