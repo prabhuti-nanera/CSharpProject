@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TravelBuddy.Pages.CalculatorPage"
+             Title="Calculator">
+    <AbsoluteLayout>
+        <Border AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds="0.5, 0.2, 300, 100"
+                BackgroundColor="{StaticResource Primary}"
+                Stroke="Transparent">
+            <Entry x:Name="ResultEntry"
+                   Placeholder="Result"
+                   IsReadOnly="True"
+                   HorizontalTextAlignment="End" />
+        </Border>
+        <FlexLayout Direction="Row" Wrap="Wrap"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="0.5, 0.5, 300, 400">
+            <Button Text="1" Clicked="OnNumberClicked" WidthRequest="60" />
+            <Button Text="2" Clicked="OnNumberClicked" WidthRequest="60" />
+            <Button Text="3" Clicked="OnNumberClicked" WidthRequest="60" />
+            <Button Text="+" Clicked="OnOperatorClicked" WidthRequest="60" />
+            <Button Text="4" Clicked="OnNumberClicked" WidthRequest="60" />
+            <Button Text="5" Clicked="OnNumberClicked" WidthRequest="60" />
+            <Button Text="6" Clicked="OnNumberClicked" WidthRequest="60" />
+            <Button Text="-" Clicked="OnOperatorClicked" WidthRequest="60" />
+            <Button Text="7" Clicked="OnNumberClicked" WidthRequest="60" />
+            <Button Text="8" Clicked="OnNumberClicked" WidthRequest="60" />
+            <Button Text="9" Clicked="OnNumberClicked" WidthRequest="60" />
+            <Button Text="*" Clicked="OnOperatorClicked" WidthRequest="60" />
+            <Button Text="0" Clicked="OnNumberClicked" WidthRequest="60" />
+            <Button Text="=" Clicked="OnCalculateClicked" WidthRequest="60" />
+            <Button Text="C" Clicked="OnClearClicked" WidthRequest="60" />
+            <Button Text="/" Clicked="OnOperatorClicked" WidthRequest="60" />
+        </FlexLayout>
+    </AbsoluteLayout>
+</ContentPage>
